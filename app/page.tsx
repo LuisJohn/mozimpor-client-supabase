@@ -73,8 +73,8 @@ export default function ClientFeedback() {
       </div>
       <Card className="w-full max-w-2xl">
         <CardHeader>
-          <CardTitle className="text-4xl font-bold text-center">Client Feedback</CardTitle>
-          <CardDescription className="text-xl text-center">We value your opinion!</CardDescription>
+          <CardTitle className="text-4xl font-bold text-center">Sistema de Feedback de Clientes</CardTitle>
+          <CardDescription className="text-xl text-center">Valorizamos sua opinião!</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex justify-center space-x-16 mb-8">
@@ -156,7 +156,7 @@ export default function ClientFeedback() {
             onClick={handleSubmit}
             disabled={!satisfaction || !rating || (satisfaction === "sad" && (!name || !contact || !comment))}
           >
-            Submit Feedback
+            Enviar Feedback
           </Button>
         </CardFooter>
       </Card>

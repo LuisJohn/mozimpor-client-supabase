@@ -74,25 +74,25 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Feedback Dashboard</h1>
+          <h1 className="text-4xl font-bold">Painel de Feedback</h1>
           <Link href="/">
             <Button variant="outline" className="text-lg py-2 px-4">
-              Back to Feedback Form
+              Voltar
             </Button>
           </Link>
         </div>
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Feedback Statistics</CardTitle>
+            <CardTitle>Estatísticas de Feedback</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
-                <p className="text-2xl font-bold">Happy Clients</p>
+                <p className="text-2xl font-bold">Clientes felizes</p>
                 <p className="text-4xl text-green-600">{happyCount}</p>
               </div>
               <div>
-                <p className="text-2xl font-bold">Sad Clients</p>
+                <p className="text-2xl font-bold">Clientes insatisfeitos</p>
                 <p className="text-4xl text-red-600">{sadCount}</p>
               </div>
             </div>
@@ -104,19 +104,19 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Recent Feedbacks</CardTitle>
+            <CardTitle>Feedbacks Recentes</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Satisfaction</TableHead>
-                  <TableHead>Rating</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Comment</TableHead>
-                  <TableHead>Action</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Satisfação</TableHead>
+                  <TableHead>Avaliação</TableHead>
+                  <TableHead>Nome</TableHead>
+                  <TableHead>Contacto</TableHead>
+                  <TableHead>Comentário</TableHead>
+                  <TableHead>Ação</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
