@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Trash2 } from "lucide-react"
+import { DeleteConfirmationModal } from "@/components/DeleteConfirmationModal"
+import { toast } from "react-toastify"
 
 interface Feedback {
   id: string
@@ -18,15 +21,51 @@ interface Feedback {
 
 export default function Dashboard() {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([])
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [feedbackToDelete, setFeedbackToDelete] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchFeedbacks = async () => {
-      const response = await fetch("/api/feedback")
-      const data = await response.json()
-      setFeedbacks(data.feedbacks)
-    }
     fetchFeedbacks()
   }, [])
+
+  const fetchFeedbacks = async () => {
+    const response = await fetch("/api/feedback")
+    const data = await response.json()
+    setFeedbacks(data.feedbacks)
+  }
+
+  const handleDeleteClick = (id: string) => {
+    setFeedbackToDelete(id)
+    setIsDeleteModalOpen(true)
+  }
+
+  const handleDeleteConfirm = async (password: string) => {
+    if (!feedbackToDelete) return
+
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: feedbackToDelete, password }),
+      })
+
+      if (response.ok) {
+        toast.success("Feedback deleted successfully")
+        fetchFeedbacks()
+      } else {
+        const data = await response.json()
+        toast.error(data.error || "Failed to delete feedback")
+      }
+    } catch (error) {
+      console.error("Error deleting feedback:", error)
+      toast.error("Error deleting feedback")
+    }
+
+    setIsDeleteModalOpen(false)
+    setFeedbackToDelete(null)
+  }
 
   const happyCount = feedbacks.filter((f) => f.satisfaction === "happy").length
   const sadCount = feedbacks.filter((f) => f.satisfaction === "sad").length
@@ -77,6 +116,7 @@ export default function Dashboard() {
                   <TableHead>Name</TableHead>
                   <TableHead>Contact</TableHead>
                   <TableHead>Comment</TableHead>
+                  <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -88,6 +128,11 @@ export default function Dashboard() {
                     <TableCell>{feedback.name || "-"}</TableCell>
                     <TableCell>{feedback.contact || "-"}</TableCell>
                     <TableCell>{feedback.comment || "-"}</TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm" onClick={() => handleDeleteClick(feedback.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -95,7 +140,11 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   )
 }
-
