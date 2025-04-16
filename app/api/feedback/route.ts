@@ -49,4 +49,4 @@ export async function DELETE(req: Request) {
       console.error("Error deleting feedback:", error)
       return NextResponse.json({ error: "Error deleting feedback" }, { status: 500 })
     }
-  }
+}
